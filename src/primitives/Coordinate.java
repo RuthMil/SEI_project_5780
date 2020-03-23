@@ -6,9 +6,9 @@ import static primitives.Util.*;
  * Class Coordinate is the basic class representing a coordinate for Cartesian
  * coordinate system. The class is based on Util controlling the accuracy.
  *
- * @author Ruth Miller
- * 314920976
- * ruthmiller2000@gmail.com
+ *  @author Ruth Miller
+ *  314920976
+ *  ruthmiller2000@gmail.com
  */
 public final class Coordinate {
     /**
@@ -55,7 +55,7 @@ public final class Coordinate {
 
     @Override
     public String toString() {
-        return "" + _coord;
+        return "" + String.format("%.2f", _coord);
     }
 }
 

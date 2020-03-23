@@ -3,7 +3,6 @@ package primitives;
 import java.util.Objects;
 
 /**
- * TODO take care for cases of zero vector in operations: add, subtract, dot product, cross product, and scale product
  * Class Vector is representing a Vector in the space.
  * The class includes point3D as the head of the vector
  * Operation: addition, subtract, dot product, scale product,
@@ -75,7 +74,12 @@ public class Vector {
      * @return addition vector between two vectors
      */
     public Vector add(Vector other){
-        return new Vector(_head.add(other));
+        try {
+            return new Vector(_head.add(other));
+        }
+        catch (Exception ex){
+            throw ex;
+        }
     }
 
     /**
@@ -84,18 +88,28 @@ public class Vector {
      * @return subtract vector between two vectors
      */
     public Vector subtract(Vector other){
-        return _head.subtract(other._head);
+        try {
+            return _head.subtract(other._head);
+        }
+        catch (Exception ex){
+            throw ex;
+        }
     }
 
     /**
-     * Return this vector multiplied by the scale
+     * Return the vector multiplied by the scale
      * @param num scale number for the product
-     * @return
+     * @return the vector multiplied by the scale
      */
     public Vector scale(double num){
-        return new Vector(this._head.get_x().get_coord() * num,
-                this._head.get_y().get_coord() * num,
-                this._head.get_z().get_coord() * num);
+        try {
+            return new Vector(this._head.get_x().get_coord() * num,
+                    this._head.get_y().get_coord() * num,
+                    this._head.get_z().get_coord() * num);
+        }
+        catch (Exception ex){
+            throw ex;
+        }
     }
 
     /**
@@ -104,10 +118,15 @@ public class Vector {
      * @return dot product between this vector to other vector
      */
     public double dotProduct(Vector other){
-        Point3D otherHead = other.get_head();
-        return this._head.get_x().get_coord() * otherHead.get_x().get_coord() +
-                this._head.get_y().get_coord() * otherHead.get_y().get_coord() +
-                this._head.get_z().get_coord() * otherHead.get_z().get_coord();
+        try {
+            Point3D otherHead = other.get_head();
+            return this._head.get_x().get_coord() * otherHead.get_x().get_coord() +
+                    this._head.get_y().get_coord() * otherHead.get_y().get_coord() +
+                    this._head.get_z().get_coord() * otherHead.get_z().get_coord();
+        }
+        catch (Exception ex){
+            throw ex;
+        }
     }
 
     /**
@@ -116,10 +135,18 @@ public class Vector {
      * @return cross product between this vector to other vector
      */
     public Vector crossProduct(Vector other){
-        Point3D otherHead = other.get_head();
-        return new Vector(this._head.get_y().get_coord() * otherHead.get_z().get_coord() - this._head.get_z().get_coord() * otherHead.get_y().get_coord(),
-                this._head.get_z().get_coord() * otherHead.get_x().get_coord() - this._head.get_x().get_coord() * otherHead.get_z().get_coord(),
-                this._head.get_x().get_coord() * otherHead.get_y().get_coord()- this._head.get_y().get_coord() * otherHead.get_x().get_coord());
+        try {
+            Point3D otherHead = other.get_head();
+            return new Vector(this._head.get_y().get_coord() * otherHead.get_z().get_coord() -
+                    this._head.get_z().get_coord() * otherHead.get_y().get_coord(),
+                    this._head.get_z().get_coord() * otherHead.get_x().get_coord() -
+                            this._head.get_x().get_coord() * otherHead.get_z().get_coord(),
+                    this._head.get_x().get_coord() * otherHead.get_y().get_coord()-
+                            this._head.get_y().get_coord() * otherHead.get_x().get_coord());
+        }
+        catch (Exception ex){
+            throw ex;
+        }
     }
 
     /**

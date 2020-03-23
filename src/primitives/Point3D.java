@@ -14,7 +14,7 @@ public class Point3D {
     private final Coordinate _x;
     private final Coordinate _y;
     private final Coordinate _z;
-    public static Point3D ZERO = new Point3D(0,0,0);
+    public static Point3D ZERO = new Point3D(0.0,0.0,0.0);
 
     @Override
     public String toString() {
@@ -118,12 +118,12 @@ public class Point3D {
      * @return squared distance between two points
      */
     public double distanceSquared(Point3D point3D){
-        return (this._x.get_coord() + point3D.get_x().get_coord()) *
-                (this._x.get_coord() + point3D.get_x().get_coord()) +
-                (this._y.get_coord() + point3D.get_y().get_coord()) *
-                        (this._y.get_coord() + point3D.get_y().get_coord()) +
-                (this._z.get_coord() + point3D.get_z().get_coord()) *
-                        (this._z.get_coord() + point3D.get_z().get_coord());
+        return (this._x.get_coord() - point3D.get_x().get_coord()) *
+                (this._x.get_coord() - point3D.get_x().get_coord()) +
+                (this._y.get_coord() - point3D.get_y().get_coord()) *
+                        (this._y.get_coord() - point3D.get_y().get_coord()) +
+                (this._z.get_coord() - point3D.get_z().get_coord()) *
+                        (this._z.get_coord() - point3D.get_z().get_coord());
     }
 
     /**
