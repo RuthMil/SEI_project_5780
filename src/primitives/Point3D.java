@@ -97,8 +97,8 @@ public class Point3D {
     public Point3D add(Vector other){
         Point3D otherHead = other.get_head();
         return new Point3D(this._x.get_coord() + otherHead.get_x().get_coord(),
-                this._x.get_coord() + otherHead.get_x().get_coord(),
-                this._x.get_coord() + otherHead.get_x().get_coord());
+                this._y.get_coord() + otherHead.get_y().get_coord(),
+                this._z.get_coord() + otherHead.get_z().get_coord());
     }
 
     /**
@@ -107,9 +107,9 @@ public class Point3D {
      * @return vector from the other vector to this vector
      */
     public  Vector subtract(Point3D other){
-        return new Vector(other.get_x().get_coord() - this._x.get_coord(),
-                other.get_y().get_coord() - this._y.get_coord(),
-                other.get_z().get_coord() - this._z.get_coord());
+        return new Vector(this.get_x().get_coord() - other._x.get_coord(),
+                this.get_y().get_coord() - other._y.get_coord(),
+                this.get_z().get_coord() - other._z.get_coord());
     }
 
     /**

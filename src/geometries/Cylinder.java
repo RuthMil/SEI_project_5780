@@ -1,6 +1,8 @@
 package geometries;
 
+import primitives.Point3D;
 import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Cylinder class is implementing a cylinder, with a radius, axis ray, and height
@@ -36,5 +38,13 @@ public class Cylinder extends Tube {
         this._height = _height;
     }
 
+    /**
+     * Return a normal to the cylinder
+     * @param point3D a point that the normal will start from it
+     * @return a normal to cylinder
+     */
+    public Vector getNormal(Point3D point3D){
+        return null;
+    }
 
 }

@@ -41,6 +41,6 @@ public class Sphere extends RadialGeometry {
      * @return a normal to a point on the sphere
      */
     public Vector getNormal(Point3D point3D){
-        return null;
+        return new Vector(point3D.subtract(this._center)).normalized();
     }
 }
