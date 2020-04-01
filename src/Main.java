@@ -1,6 +1,7 @@
 import geometries.Cylinder;
 import primitives.*;
 import static java.lang.System.out;
+import static org.junit.Assert.assertEquals;
 import static primitives.Util.*;
 
 /**

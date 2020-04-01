@@ -1,4 +1,4 @@
-package unittests.primitivesTests;
+package primitivesTests;
 
 import primitives.Vector;
 

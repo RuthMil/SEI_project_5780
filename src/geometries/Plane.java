@@ -10,8 +10,8 @@ import primitives.*;
  */
 public class Plane implements Geometry {
 
-    private Point3D _p;
-    private Vector _normal;
+    protected Point3D _p;
+    protected Vector _normal;
 
     /**
      * Constructor for Plane class, gets a point and a normal and creates match plane
@@ -31,8 +31,8 @@ public class Plane implements Geometry {
      */
     public Plane(Point3D _p1, Point3D _p2, Point3D _p3) {
         this._p = _p1;
-        Vector v1 = new Vector(_p3.subtract(_p1));
-        Vector v2 = new Vector(_p2.subtract(_p1));
+        Vector v1 = new Vector(_p2.subtract(_p1));
+        Vector v2 = new Vector(_p3.subtract(_p1));
         this._normal = v1.crossProduct(v2).normalize();
     }
 

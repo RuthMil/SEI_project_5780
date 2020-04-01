@@ -4,6 +4,9 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
  * Cylinder class is implementing a cylinder, with a radius, axis ray, and height
  *  @author Ruth Miller
@@ -43,8 +46,22 @@ public class Cylinder extends Tube {
      * @param point3D a point that the normal will start from it
      * @return a normal to cylinder
      */
-    public Vector getNormal(Point3D point3D){
-        return null;
+    public Vector getNormal(Point3D point3D) {
+        double t;
+        // if point3D is equal to p0 point in the axis ray, return the direction vector
+        try{
+            t = alignZero(this._axisRay.getDir().dotProduct(point3D.subtract(this._axisRay.get_p0())));
+        }
+        catch (Exception e){
+            return this._axisRay.getDir();
+        }
+
+        // if the point is at one of the bases, return the direction vector
+        if(t ==0 || isZero(this._height - t))
+            return this._axisRay.getDir();
+
+        Point3D O = this._axisRay.get_p0().add(this._axisRay.getDir().scale(t));
+        return point3D.subtract(O).normalize();
     }
 
 }

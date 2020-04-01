@@ -1,4 +1,4 @@
-package unittests.geometriesTests;
+package geometriesTests;
 
 import geometries.Plane;
 import org.junit.Test;
@@ -20,10 +20,11 @@ public class PlaneTest {
      */
     @Test
     public void getNormal() {
+
+        // ============ Equivalence Partitions Tests ==============
         Vector point = new Vector(1,2,3);
         Plane pl = new Plane(new Point3D(1,2,3), new Point3D(4,5,6), new Point3D(-3,5,4));
         Vector normal = pl.getNormal(new Point3D(1,2,3));
-        System.out.println(normal);
         assertTrue("the normal is not orthogonal to direct vector on the plane", isZero(normal.dotProduct(new Vector(1,2,3).subtract(new Vector(-3,5,4)))));
     }
 }

@@ -1,4 +1,4 @@
-package unittests.geometriesTests;
+package geometriesTests;
 
 import geometries.Sphere;
 import org.junit.Test;
@@ -21,10 +21,11 @@ public class SphereTest {
      */
     @Test
     public void getNormal() {
-        Point3D center = new Point3D(1,2,3);
+
+        // ============ Equivalence Partitions Tests ==============
+        Point3D center = new Point3D(0 ,0,1);
         Sphere sp = new Sphere(2, center);
-        Vector n = sp.getNormal(new Point3D(1,1,2));
-        System.out.println(n);
-        assertTrue(isZero(n.dotProduct(new Vector(1,1,2))));
+        Vector n = sp.getNormal(new Point3D(0,0,2));
+        assertEquals(new Vector(0,0,1), n);
     }
 }
