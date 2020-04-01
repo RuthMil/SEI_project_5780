@@ -16,6 +16,9 @@ import static org.junit.Assert.*;
  */
 public class CylinderTest {
 
+    /**
+     * Test for geometries.Cylinder.getNormal()
+     */
     @Test
     public void getNormal() {
         Cylinder cy = new Cylinder(1.0, new Ray(new Point3D(0,0,1), new Vector(0,1,0)), 1.0);
@@ -26,5 +29,9 @@ public class CylinderTest {
         assertEquals("Bad normal to cylinder", new Vector(0,1,0), cy.getNormal(new Point3D(0,1,1.5)));
 
         assertEquals("Bad normal to cylinder", new Vector(0,1,0), cy.getNormal(new Point3D(0,-1,1.5)));
+
+        // =============== Boundary Values Tests ==================
+        //TODO
+
     }
 }

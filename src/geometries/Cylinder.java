@@ -57,7 +57,7 @@ public class Cylinder extends Tube {
         }
 
         // if the point is at one of the bases, return the direction vector
-        if(t ==0 || isZero(this._height - t))
+        if(t ==0 || isZero(this._height - Math.abs(t)))
             return this._axisRay.getDir();
 
         Point3D O = this._axisRay.get_p0().add(this._axisRay.getDir().scale(t));
