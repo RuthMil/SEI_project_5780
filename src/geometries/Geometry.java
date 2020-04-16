@@ -9,7 +9,7 @@ import primitives.Vector;
  *  314920976
  *  ruthmiller2000@gmail.com
  */
-public interface Geometry {
+public interface Geometry extends Intersectable {
     /**
      * Return normal to geometry
      * @param point3D a point on the geometry, that the normal is a normal to the geometry from this point

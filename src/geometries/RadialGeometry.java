@@ -6,7 +6,7 @@ package geometries;
  *  314920976
  *  ruthmiller2000@gmail.com
  */
-public abstract class RadialGeometry {
+public abstract class RadialGeometry implements Geometry{
     protected double _radius;
 
     /**

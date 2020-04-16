@@ -2,6 +2,8 @@ package primitives;
 
 import java.util.Objects;
 
+import static primitives.Util.isZero;
+
 /**
  * Class Ray is representing a ray in the space.
  * The class includes point3D as the start point,
@@ -62,5 +64,22 @@ public class Ray {
      */
     public Ray(Ray other) {
         this(other._p0, other.dir);
+    }
+
+    /**
+     * @param length
+     * @return new Point3D
+     */
+    public Point3D getTargetPoint(double length) {
+        return isZero(length ) ? _p0 : _p0.add(dir.scale(length));
+    }
+
+    /**
+     * Getter for the point from which the ray starts.
+     * @return A new Point3D that represents the
+     * point from which the ray starts.
+     */
+    public Point3D getPoint() {
+        return new Point3D(_p0);
     }
 }

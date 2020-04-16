@@ -2,6 +2,8 @@ package geometries;
 
 import primitives.*;
 
+import java.util.List;
+
 /**
  * Tube class implementing a tube, with a radius and axis ray
  *  @author Ruth Miller
@@ -44,5 +46,15 @@ public class Tube extends RadialGeometry{
         double t = this._axisRay.getDir().dotProduct(point3D.subtract(this._axisRay.get_p0()));
         Point3D O = this._axisRay.get_p0().add(this._axisRay.getDir().scale(t));
         return point3D.subtract(O).normalize();
+    }
+
+    /**
+     * find intersections point3D with tube
+     * @param ray ray for casting
+     * @return list of intersections point3D or null if there were not found
+     */
+    @Override
+    public List<Point3D> findIntersections(Ray ray) {
+        return null;
     }
 }
