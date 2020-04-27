@@ -1,12 +1,10 @@
-package geometriesTests;
+package geometries;
 
-import geometries.Triangle;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.awt.event.MouseAdapter;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -42,9 +40,8 @@ public class TriangleTests {
         assertNull("Ray from triangle outside",
                 triangle.findIntersections(new Ray(new Point3D(0.5,0.5,0), new Vector(1,0,0))));
 
-        //TODO
         //TC02: the ray begins outside against edge
-        assertEquals("Ray from outside of triangle against edge", List.of(new Point3D(0.5,0,0)),
+        assertNull("Ray from outside of triangle against edge",
                 triangle.findIntersections(new Ray(new Point3D(0.5,-1,0), new Vector(0,1,0))));
 
         //TC03: the ray begins outside against vertex

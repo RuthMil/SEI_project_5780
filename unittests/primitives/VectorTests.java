@@ -1,6 +1,4 @@
-package primitivesTests;
-
-import primitives.Vector;
+package primitives;
 
 import static org.junit.Assert.*;
 

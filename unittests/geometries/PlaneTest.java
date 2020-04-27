@@ -1,13 +1,11 @@
-package geometriesTests;
+package geometries;
 
-import geometries.Plane;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
 import java.util.List;
-import java.util.function.LongUnaryOperator;
 
 import static org.junit.Assert.*;
 import static primitives.Util.isZero;
