@@ -73,11 +73,11 @@ public class Camera {
 
         Point3D Pc = _p0.add(_vTo.scale(screenDistance));
 
-        double Ry = screenHeight/nY;
-        double Rx = screenWidth/nX;
+        double Ry = screenHeight / nY;
+        double Rx = screenWidth / nX;
 
-        double yi =  ((i - nY/2d)*Ry + Ry/2d);
-        double xj=   ((j - nX/2d)*Rx + Rx/2d);
+        double yi = (i - nY / 2d) * Ry + Ry / 2;
+        double xj = (j - nX / 2d) * Rx + Rx / 2;
 
         Point3D Pij = Pc;
 
@@ -92,6 +92,6 @@ public class Camera {
 
         Vector Vij = Pij.subtract(_p0);
 
-        return new Ray(_p0,Vij);
+        return new Ray(new Point3D(_p0), Vij.normalize());
     }
 }
