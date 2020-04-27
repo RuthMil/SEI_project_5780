@@ -14,8 +14,8 @@ import static primitives.Util.isZero;
  * ruthmiller2000@gmail.com
  */
 public class Ray {
-    private Point3D _p0;
-    private Vector dir;
+    protected Point3D _p0;
+    protected Vector dir;
 
     /**
      * _p0 getter

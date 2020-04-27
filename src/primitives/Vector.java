@@ -13,7 +13,7 @@ import java.util.Objects;
  * ruthmiller2000@gmail.com
  */
 public class Vector {
-    private Point3D _head;
+    protected Point3D _head;
 
     /**
      * head getter
