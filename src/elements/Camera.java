@@ -4,6 +4,10 @@ import primitives.*;
 
 import static primitives.Util.isZero;
 
+/**
+ * Camera class
+ * @author Ruth Miller
+ */
 public class Camera {
     protected Point3D _p0;
     protected Vector _vUp;

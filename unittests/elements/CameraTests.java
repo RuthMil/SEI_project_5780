@@ -10,8 +10,9 @@ import primitives.*;
 
 /**
  * Testing Camera Class
- * @author Dan
- *
+ * @author Ruth Miller
+ * 314920976
+ * ruthmiller2000@gmail.com
  */
 public class CameraTests {
 
