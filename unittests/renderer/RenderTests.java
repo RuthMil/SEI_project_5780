@@ -9,6 +9,10 @@ import primitives.*;
 import renderer.ImageWriter;
 import renderer.Render;
 import scene.Scene;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 //TODO NB tests for Render.getClosestPoint. private or not?
 /**
  * Test rendering abasic image
@@ -44,4 +48,19 @@ public class RenderTests {
         render.printGrid(50, java.awt.Color.YELLOW);
         render.writeToImage();
     }
+
+    /* // Test for Render.getClosestPoint
+    @Test
+    void getClosestPoint() {
+        Scene scene = new Scene("Test scene");
+        scene.set_camera(new Camera(Point3D.ZERO, new Vector(0, 0, 1), new Vector(0, -1, 0)));
+        scene.set_distance(100);
+        ImageWriter imageWriter = new ImageWriter("base render test", 500, 500, 500, 500);
+        Render render = new Render(imageWriter, scene);
+        List<Point3D> pointsList = new ArrayList<Point3D>();
+        pointsList.add(new Point3D(-3,0,0));
+        pointsList.add(new Point3D(2,0,0));
+        pointsList.add(new Point3D(5,7,0));
+        assertEquals(new Point3D(2,0,0), render.getClosestPoint(pointsList), "getClosestPoint is not good!");
+    }*/
 }
