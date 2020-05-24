@@ -10,10 +10,9 @@ import static primitives.Util.isZero;
 /**
  * Plane class is implementing a plane
  *  @author Ruth Miller
- *  314920976
  *  ruthmiller2000@gmail.com
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
     protected Point3D _p;
     protected Vector _normal;
@@ -29,6 +28,17 @@ public class Plane implements Geometry {
     }
 
     /**
+     * Constructor for Plane class, gets an emission, a point and a normal and creates match plane
+     * @param emission
+     * @param _p
+     * @param _normal
+     */
+    public Plane(Color emission, Point3D _p, Vector _normal) {
+        this(_p, _normal);
+        this._emission = emission;
+    }
+
+    /**
      * Constructor for Plane class, gets three points on the required plane and creates it
      * @param _p1 point 1
      * @param _p2 point 2
@@ -39,6 +49,31 @@ public class Plane implements Geometry {
         Vector v1 = new Vector(_p2.subtract(_p1));
         Vector v2 = new Vector(_p3.subtract(_p1));
         this._normal = v1.crossProduct(v2).normalize();
+    }
+
+    /**
+     * Constructor for Plane class, gets an emission, and three points on the required plane and creates it
+     * @param emission emission light
+     * @param _p1 point 1
+     * @param _p2 point 2
+     * @param _p3 point 3
+     */
+    public Plane(Color emission, Point3D _p1, Point3D _p2, Point3D _p3) {
+        this(_p1, _p2, _p3);
+        this._emission = emission;
+    }
+
+    /**
+     * Constructor for Plane class, gets an emission, and three points on the required plane and creates it
+     * @param material material of the plane
+     * @param emission emission light
+     * @param _p1 point 1
+     * @param _p2 point 2
+     * @param _p3 point 3
+     */
+    public Plane(Material material, Color emission, Point3D _p1, Point3D _p2, Point3D _p3) {
+        this(emission, _p1, _p2, _p3);
+        this._material = material;
     }
 
     /**
@@ -57,7 +92,7 @@ public class Plane implements Geometry {
      * @return list of intersections point3D or null if there were not found
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         Vector p0Q;
         try {
             p0Q = _p.subtract(ray.getPoint());
@@ -71,6 +106,6 @@ public class Plane implements Geometry {
 
         double t = alignZero(_normal.dotProduct(p0Q) / nv);
 
-        return t <= 0 ? null : List.of(ray.getTargetPoint(t));
+        return t <= 0 ? null : List.of(new GeoPoint(this, ray.getTargetPoint(t)));
     }
 }

@@ -1,12 +1,11 @@
 package elements;
 
-import geometries.Plane;
-import geometries.Sphere;
-import geometries.Triangle;
+import geometries.*;
 import org.junit.jupiter.api.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+import static geometries.Intersectable.GeoPoint;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +30,7 @@ class CameraIntegrationTests {
         int counter = 0;
         int Nx = 3;
         int Ny = 3;
-        List<Point3D> pointsList;
+        List<GeoPoint> pointsList;
 
         //TC01: intersection points with a sphere with radius = 1, center point: (0,0,3)
 
@@ -106,7 +105,7 @@ class CameraIntegrationTests {
         int counter = 0;
         int Nx = 3;
         int Ny = 3;
-        List<Point3D> pointsList;
+        List<GeoPoint> pointsList;
 
         //TC11: intersection points with a plane with point(0,0,10), normal vector (cam1._vTo().scale(-1))
 
@@ -153,7 +152,7 @@ class CameraIntegrationTests {
         int counter = 0;
         int Nx = 3;
         int Ny = 3;
-        List<Point3D> pointsList;
+        List<GeoPoint> pointsList;
 
         //TC21: intersection points with a triangle with points: (0,-1,2), (1, 1, 2), (-1, 1, 2)
 

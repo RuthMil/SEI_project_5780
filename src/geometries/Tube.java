@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Tube class implementing a tube, with a radius and axis ray
  *  @author Ruth Miller
- *  314920976
  *  ruthmiller2000@gmail.com
  */
 public class Tube extends RadialGeometry{
@@ -29,6 +28,29 @@ public class Tube extends RadialGeometry{
     public Tube(double _radius, Ray _axisRay) {
         super(_radius);
         this._axisRay = _axisRay;
+    }
+
+    /**
+     * Constructor for Tube class, gets an emission, a radius and a ray and creates a new match tube
+     * @param emission emission light
+     * @param _radius
+     * @param _axisRay
+     */
+    public Tube(Color emission, double _radius, Ray _axisRay) {
+        this(_radius, _axisRay);
+        this._emission = emission;
+    }
+
+    /**
+     * Constructor for Tube class, gets a material, an emission, a radius and a ray and creates a new match tube
+     * @param material material of the tube
+     * @param emission emission light
+     * @param _radius
+     * @param _axisRay
+     */
+    public Tube(Material material, Color emission, double _radius, Ray _axisRay) {
+        this(emission, _radius, _axisRay);
+        this._material = material;
     }
 
     @Override
@@ -54,7 +76,7 @@ public class Tube extends RadialGeometry{
      * @return list of intersections point3D or null if there were not found
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         return null;
     }
 }

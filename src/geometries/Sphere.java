@@ -9,19 +9,10 @@ import static primitives.Util.alignZero;
 /**
  * Sphere class is implementing a sphere, with a radius and center point
  *  @author Ruth Miller
- *  314920976
  *  ruthmiller2000@gmail.com
  */
 public class Sphere extends RadialGeometry {
     protected Point3D _center;
-
-    /**
-     * Center getter
-     * @return center of a sphere
-     */
-    public Point3D get_center() {
-        return _center;
-    }
 
     /**
      * Constructor for Sphere class, gets a radius and a center point3D, and creates a new sphere
@@ -31,6 +22,37 @@ public class Sphere extends RadialGeometry {
     public Sphere(double _radius, Point3D _center) {
         super(_radius);
         this._center = _center;
+    }
+
+    /**
+     * Constructor for Sphere class, gets an emission, a radius and a center point3D, and creates a new sphere
+     * @param emission emission light
+     * @param _radius radius of a sphere
+     * @param _center a point3D, the center point of a sphere
+     */
+    public Sphere(Color emission, double _radius, Point3D _center) {
+        this(_radius, _center);
+        this._emission = emission;
+    }
+
+    /**
+     * Constructor for Sphere class, gets a material, an emission, a radius and a center point3D, and creates a new sphere
+     * @param emission emission light
+     * @param material material of the sphere
+     * @param _radius radius of a sphere
+     * @param _center a point3D, the center point of a sphere
+     */
+    public Sphere(Color emission, Material material, double _radius, Point3D _center) {
+        this(emission, _radius, _center);
+        this._material = material;
+    }
+
+    /**
+     * Center getter
+     * @return center of a sphere
+     */
+    public Point3D get_center() {
+        return _center;
     }
 
     @Override
@@ -54,14 +76,14 @@ public class Sphere extends RadialGeometry {
      * @return list of intersections point3D or null if there were not found
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         Point3D p0 = ray.getPoint();
         Vector v = ray.getDir();
         Vector u;
         try {
             u = _center.subtract(p0);   // p0 == _center
         } catch (IllegalArgumentException e) {
-            return List.of(ray.getTargetPoint(_radius));
+            return List.of(new GeoPoint(this, ray.getTargetPoint(_radius)));
         }
         double tm = alignZero(v.dotProduct(u));
         double dSquared = (tm == 0) ? u.lengthSquared() : u.lengthSquared() - tm * tm;
@@ -75,10 +97,10 @@ public class Sphere extends RadialGeometry {
         double t1 = alignZero(tm - th);
         double t2 = alignZero(tm + th);
         if (t1 <= 0 && t2 <= 0) return null;
-        if (t1 > 0 && t2 > 0) return List.of(ray.getTargetPoint(t1), ray.getTargetPoint(t2)); //P1 , P2
+        if (t1 > 0 && t2 > 0) return List.of(new GeoPoint(this, ray.getTargetPoint(t1)), new GeoPoint(this, ray.getTargetPoint(t2))); //P1 , P2
         if (t1 > 0)
-            return List.of(ray.getTargetPoint(t1));
+            return List.of(new GeoPoint(this, ray.getTargetPoint(t1)));
         else
-            return List.of(ray.getTargetPoint(t2));
+            return List.of(new GeoPoint(this, ray.getTargetPoint(t2)));
     }
 }

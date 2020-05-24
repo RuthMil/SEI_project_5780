@@ -1,16 +1,13 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
- * Cylinder class is implementing a cylinder, with a radius, axis ray, and height
+ * Cylinder class is implementing a cylinder, extends tube, with a radius, axis ray, and height
  *  @author Ruth Miller
- *  314920976
  *  ruthmiller2000@gmail.com
  */
 public class Cylinder extends Tube {
@@ -39,6 +36,31 @@ public class Cylinder extends Tube {
     public Cylinder(double _radius, Ray _axisRay, double _height) {
         super(_radius, _axisRay);
         this._height = _height;
+    }
+
+    /**
+     * Constructor for Cylinder class, gets an emission, a radius, ray and height and creates a new match cylinder
+     * @param emission emission light
+     * @param _radius
+     * @param _axisRay
+     * @param _height
+     */
+    public Cylinder(Color emission, double _radius, Ray _axisRay, double _height) {
+        this(_radius, _axisRay, _height);
+        this._emission = emission;
+    }
+
+    /**
+     * Constructor for Cylinder class, gets an emission, a radius, ray and height and creates a new match cylinder
+     * @param material material of the cylinder
+     * @param emission emission light
+     * @param _radius
+     * @param _axisRay
+     * @param _height
+     */
+    public Cylinder(Material material, Color emission, double _radius, Ray _axisRay, double _height) {
+        this(emission, _radius, _axisRay, _height);
+        this._material = material;
     }
 
     /**

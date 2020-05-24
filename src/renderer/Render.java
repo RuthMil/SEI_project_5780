@@ -4,8 +4,11 @@ import geometries.Intersectable;
 import primitives.*;
 import scene.Scene;
 import elements.*;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
+
+import static primitives.Util.alignZero;
 
 /**
  * Render class, rendering an image for writing
@@ -45,38 +48,105 @@ public class Render {
         for(int i = 0; i < nY; i++){
             for(int j = 0; j < nX; j++){
                 Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, distance, width, height);
-                List<Point3D> intersectionPoints = geometries.findIntersections(ray);
+                List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
                 if (intersectionPoints == null)
                     _imageWriter.writePixel(j, i, background);
                 else
                 {
-                    Point3D closestPoint = getClosestPoint(intersectionPoints);
+                    GeoPoint closestPoint = getClosestPoint(intersectionPoints);
                     _imageWriter.writePixel(j, i, calcColor(closestPoint).getColor());
                 }
             }
         }
     }
 
-    private Color calcColor(Point3D p){
-        return _scene.get_ambientLight().get_intensity();
+    /**
+     * Calculates a color in a point
+     * @param intersection point3D
+     * @return a color in a point
+     */
+    private Color calcColor(GeoPoint intersection){
+        Color color = _scene.get_ambientLight().get_intensity();
+        color = color.add(intersection.geometry.get_emission());
+
+        Vector v = intersection.point.subtract(_scene.get_camera().get_p0()).normalize();
+        Vector n = intersection.geometry.getNormal(intersection.point);
+        Material material = intersection.geometry.get_material();
+        int nShininess = material.get_nShininess();
+        double kd = material.get_kD();
+        double ks = material.get_ks();
+
+        for (LightSource lightSource : _scene.get_lights()) {
+            Vector l = lightSource.getL(intersection.point);
+            if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
+                Color lightIntensity = lightSource.getIntensity(intersection.point);
+                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            }
+        }
+        return color;
+    }
+
+    //TODO check case 0
+    /**
+     * Calculate Specular component of light reflection.
+     *
+     * @param ks specular component
+     * @param l direction from light to point
+     * @param n normal to surface at the point
+     * @param v direction from point of view to point
+     * @param nShininess shininess level
+     * @param lightIntensity light intensity at the point
+     * @return specular component light effect at the point
+     */
+    private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
+        Vector R = l.subtract(n.scale(l.dotProduct(n) * 2));
+        double minusVR = v.scale(-1).dotProduct(R);
+        return lightIntensity.scale(Math.pow(Math.max(0, minusVR), nShininess) * ks);
+    }
+
+    /**
+     * Calculate Diffusive component of light reflection.
+     *
+     * @param kd kd diffusive component
+     * @param l L vector
+     * @param n normal vector
+     * @param lightIntensity light intensity at the point
+     * @return diffusive component of light reflection
+     */
+    private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
+        double nl = alignZero(n.dotProduct(l));
+        if(nl < 0){
+            nl *= -1;
+        }
+        return lightIntensity.scale(kd * nl);
+    }
+
+    /**
+     * Check what is the sigh of a number
+     * @param number
+     * @return if the number is bigger than 0: return true, else: false
+     */
+    private boolean sign(double number) {
+        return number > 0d;
     }
 
     /**
      * Finding the closest point to the P0 of the camera.
-     * @param points list of points, the function should find from
+     * @param geoPoints list of points, the function should find from
      * this list the closet point to P0 of the camera in the scene.
      * @return the closest point to the camera
      */
-    private Point3D getClosestPoint(List<Point3D> points){
-        Point3D minPoint = points.get(0);
+    private GeoPoint getClosestPoint(List<GeoPoint> geoPoints){
+        GeoPoint minPoint = geoPoints.get(0);
         double minDis = Double.MAX_VALUE;
         Point3D p0 = this._scene.get_camera().get_p0();
 
-        for(Point3D point : points){
-            double tmp_distance = point.distance(p0);
+        for(GeoPoint geoPoint : geoPoints){
+            double tmp_distance = geoPoint.point.distance(p0);
             if(tmp_distance < minDis){
                 minDis = tmp_distance;
-                minPoint = point;
+                minPoint = geoPoint;
             }
         }
         return minPoint;

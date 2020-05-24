@@ -1,11 +1,15 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
+import primitives.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Geometries class represents list of intersectable geometries for different usages
+ * @author Ruth Miller
+ * ruthmiller2000@gmail.com
+ */
 public class Geometries implements Intersectable {
     List<Intersectable>  _geometries;
 
@@ -37,17 +41,17 @@ public class Geometries implements Intersectable {
      * @return list of intersections point3D or null if there were not found
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
-        List<Point3D> intersections = new LinkedList<Point3D>();
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> intersections = new LinkedList<GeoPoint>();
         if (_geometries.isEmpty())
             return null;
         for (Intersectable geo:_geometries
              ) {
-            List<Point3D> geometryIntersectionPoints = geo.findIntersections(ray);
+            List<GeoPoint> geometryIntersectionPoints = geo.findIntersections(ray);
             if(geometryIntersectionPoints != null)
-                for (Point3D point:geometryIntersectionPoints
+                for (GeoPoint geoPoint:geometryIntersectionPoints
                      ) {
-                    intersections.add(point);
+                    intersections.add(geoPoint);
                 }
         }
         return intersections.isEmpty()? null : intersections;
