@@ -1,2 +1,2 @@
 # Image Rendering Project
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![Image of Yaktocat](file:///C:/IdeaProjects/SEI_project_5780/images/multipleLightSourcesSphere.jpg)
