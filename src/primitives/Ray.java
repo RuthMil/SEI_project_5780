@@ -17,6 +17,9 @@ public class Ray {
     protected Point3D _p0;
     protected Vector dir;
 
+    // Constant for moving the rays of shadows, reflection and refraction
+    private static final double DELTA = 0.1;
+
     /**
      * _p0 getter
      * @return start point of a ray
@@ -46,6 +49,22 @@ public class Ray {
     public String toString() {
         return "start point: " + _p0 +
                 ", direction vector: " + dir;
+    }
+
+    /**
+     * Constructor for Ray, gets head point, direction and normal to direction,
+     * creates a new ray with the head point + normal.scale(±DELTA)
+     * @param head head point of the ray
+     * @param direction direction of a ray
+     * @param normal normal to the direction of the ray
+     */
+    public Ray(Point3D head, Vector direction, Vector normal){
+        this.dir = new Vector(direction).normalized();
+
+        double vn = direction.dotProduct(normal);
+
+        Vector normalDelta = normal.scale((vn > 0 ? DELTA : -DELTA));
+        this._p0 = head.add(normalDelta);
     }
 
     /**
