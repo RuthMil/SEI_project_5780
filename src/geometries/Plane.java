@@ -65,13 +65,13 @@ public class Plane extends Geometry {
 
     /**
      * Constructor for Plane class, gets an emission, and three points on the required plane and creates it
-     * @param material material of the plane
      * @param emission emission light
+     * @param material material of the plane
      * @param _p1 point 1
      * @param _p2 point 2
      * @param _p3 point 3
      */
-    public Plane(Material material, Color emission, Point3D _p1, Point3D _p2, Point3D _p3) {
+    public Plane(Color emission, Material material, Point3D _p1, Point3D _p2, Point3D _p3) {
         this(emission, _p1, _p2, _p3);
         this._material = material;
     }

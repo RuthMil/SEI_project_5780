@@ -132,6 +132,10 @@ public class Scene {
      * @param lights light source in a scene
      */
     public void addLights(LightSource... lights) {
+        if(lights == null){
+            return;
+        }
+
         for (LightSource lightSource: lights
              ) {
             _lights.add(lightSource);
