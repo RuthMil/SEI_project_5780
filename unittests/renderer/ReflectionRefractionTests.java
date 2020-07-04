@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import elements.*;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /**
@@ -41,7 +40,8 @@ public class ReflectionRefractionTests {
 
         ImageWriter imageWriter = new ImageWriter("twoSpheres", 150, 150, 500, 500);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
@@ -70,7 +70,8 @@ public class ReflectionRefractionTests {
 
         ImageWriter imageWriter = new ImageWriter("twoSpheresMirrored", 2500, 2500, 500, 500);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
@@ -100,7 +101,8 @@ public class ReflectionRefractionTests {
 
         ImageWriter imageWriter = new ImageWriter("shadow with transparency", 200, 200, 600, 600);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
@@ -117,24 +119,24 @@ public class ReflectionRefractionTests {
                         new Point3D(-150, 150, 115), new Point3D(150, 150, 135), new Point3D(75, -75, 150)), //
                 new Triangle(new Color(130,130,130), new Material(0.5, 0.5, 60), //
                         new Point3D(-150, 150, 115), new Point3D(-70, -70, 140), new Point3D(75, -75, 150)),
-                new Sphere(new Color(255,242,0), new Material(0.25, 0.25, 20, 0.5, 0), // )
+                new Sphere(new Color(255,242,0), new Material(0.25, 0.25, 20, 0.1, 0), // )
                         35, new Point3D(0, 0, 50)),
-                new Triangle(new Color(0, 248, 70), new Material(0.2, 0.2, 30, 0.1, 0),
+                new Triangle(new Color(0, 248, 70), new Material(0.2, 0.2, 30, 0, 0),
                         new Point3D(10,-10,0), new Point3D(20,-10,0), new Point3D(15,-5,20)),
-                new Triangle(new Color(0, 248, 70), new Material(0.2, 0.2, 30, 0.1, 0),
+                new Triangle(new Color(0, 248, 70), new Material(0.2, 0.2, 30, 0, 0),
                         new Point3D(10,-10,0), new Point3D(10,-5,0), new Point3D(15,-5,20)),
                 new Triangle(Color.BLACK, new Material(0.2, 0.2, 30, 0, 0),
-                        new Point3D(-10, -10, 0), new Point3D(-20,-10,0), new Point3D(-15,-5,50)),
-                new Sphere(new Color(236, 28, 36),new Material(0.2, 0.2, 30, 0, 0),
-                        5, new Point3D(0,-20, 50))
+                        new Point3D(-10, -10, 0), new Point3D(-20,-10,0), new Point3D(-15,-5,50))
                 );
 
-        scene.addLights(new SpotLight(new Color(239,239,239), //
-                new Point3D(0, 0, 0), new Vector(0, 0, 1), 1, 4E-5, 2E-7));
+        scene.addLights(new DirectionalLight(new Color(239,239,239), new Vector(1,1,1)));
 
+        // new SpotLight(new Color(239,239,239), //
+        //                new Point3D(0, 0, 0), new Vector(0, 0, 1), 1, 4E-5, 2E-7)
         ImageWriter imageWriter = new ImageWriter("multipleGeometries", 200, 200, 600, 600);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }

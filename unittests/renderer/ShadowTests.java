@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import elements.*;
 import geometries.*;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /**
@@ -36,6 +35,8 @@ public class ShadowTests {
 
         ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 200, 200, 400, 400);
         Render render = new Render(imageWriter, scene);
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
 
         render.renderImage();
         render.writeToImage();
@@ -62,7 +63,8 @@ public class ShadowTests {
 
         ImageWriter imageWriter = new ImageWriter("sphereTriangleMove1", 200, 200, 400, 400);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
@@ -88,7 +90,8 @@ public class ShadowTests {
 
         ImageWriter imageWriter = new ImageWriter("sphereTriangleMove2", 200, 200, 400, 400);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
@@ -114,7 +117,8 @@ public class ShadowTests {
 
         ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot1", 200, 200, 400, 400);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
@@ -140,7 +144,8 @@ public class ShadowTests {
 
         ImageWriter imageWriter = new ImageWriter("sphereTriangleSpot2", 200, 200, 400, 400);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
@@ -169,7 +174,8 @@ public class ShadowTests {
 
         ImageWriter imageWriter = new ImageWriter("trianglesSphere", 200, 200, 600, 600);
         Render render = new Render(imageWriter, scene);
-
+        render.set_superSampling(1.0);
+        render.set_rayNumber(50);
         render.renderImage();
         render.writeToImage();
     }
