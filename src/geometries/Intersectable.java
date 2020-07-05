@@ -27,7 +27,6 @@ public interface Intersectable {
             this.point = point;
         }
 
-        //TODO how to check types of geometries
         /**
          * Checks if two Intersectables are equal
          * @param o other Intersectable

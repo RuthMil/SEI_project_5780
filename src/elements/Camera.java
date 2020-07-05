@@ -12,6 +12,7 @@ import static primitives.Util.isZero;
 /**
  * Camera class
  * @author Ruth Miller
+ * ruthmiller2000@gmail.com
  */
 public class Camera {
     protected Point3D _p0;
@@ -20,6 +21,12 @@ public class Camera {
     protected Vector _vRight;
     private static final Random rand = new Random();
 
+    /**
+     * Constructor for camera
+     * @param _p0
+     * @param _vTo
+     * @param _vUp
+     */
     public Camera(Point3D _p0, Vector _vTo, Vector _vUp) {
         if (_vUp.dotProduct(_vTo) != 0)
             throw new IllegalArgumentException("the vectors _vPo, _vTo must be orthogonal");
@@ -143,7 +150,7 @@ public class Camera {
         //antialiasing density >= 1
         double radius = (Rx + Ry) / 2d * density;
 
-
+        //construct amount of rays, at random, inside the radius, around the center point Pij
         for (int counter = 0; counter < amount; counter++) {
             Point3D point = new Point3D(Pij);
             double cosTheta = 2 * rand.nextDouble() - 1;
@@ -162,6 +169,7 @@ public class Camera {
             rays.add(new Ray(_p0, point.subtract(_p0)));
         }
 
+        // return list of rays without duplicates
         return rays.stream()
                 .distinct()
                 .collect(Collectors.toCollection(LinkedList::new));

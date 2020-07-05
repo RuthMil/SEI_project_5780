@@ -23,7 +23,10 @@ public class Render {
     private int _threads = 1;
     private final int SPARE_THREADS = 2;
     private boolean _print = false;
+
+    // density of multi-rays
     private double _superSampling = 0d;
+
     private int _rayNumber = 1;
     /**
      * Pixel is an internal helper class whose objects are associated with a Render object that
@@ -176,23 +179,55 @@ public class Render {
         this._rayNumber = _rayNumber;
     }
 
+    /**
+     * calculate multi-rays for a pixel
+     * @param camera
+     * @param distance
+     * @param nx
+     * @param ny
+     * @param width
+     * @param height
+     * @param pixel
+     * @return multi-rays for a pixel
+     */
     private Color getPixelRaysBeamColor(Camera camera, double distance, int nx, int ny, double width, double height, Pixel pixel) {
+        //ray from the center of the pixel
         Ray ray = camera.constructRayThroughPixel(nx, ny, pixel.col, pixel.row, distance, width, height);
+
+        //multi-rays, at random, by specific density
         List<Ray> rays = camera.constructRandomRaysBeamThroughPixel(nx, ny, pixel.col, pixel.row, distance, width, height, _superSampling, _rayNumber);
+
         rays.add(ray);
         return calcColor(rays);
     }
 
+    /**
+     * calculate one ray from center of a pixel
+     * @param camera
+     * @param distance
+     * @param nx
+     * @param ny
+     * @param width
+     * @param height
+     * @param pixel
+     * @return one ray from center of a pixel
+     */
     private Color getPixelRayColor(Camera camera, double distance, int nx, int ny, double width, double height, Pixel pixel) {
         Ray ray = camera.constructRayThroughPixel(nx, ny, pixel.col, pixel.row, distance, width, height);
         GeoPoint closestPoint = findClosestIntersection(ray);
         Color pixelColor = _scene.get_background();
+
+        //check if there is intersection
         if (closestPoint != null) {
             pixelColor = calcColor(closestPoint, ray);
         }
         return pixelColor;
     }
 
+    /**
+     * print progress massages
+     * @param msg
+     */
     private synchronized void printMessage(String msg) {
         synchronized (System.out) {
             System.out.println(msg);
@@ -238,6 +273,7 @@ public class Render {
             });
         }
 
+        // multi-threading
         for (Thread thread : threads) thread.start();
 
         for (Thread thread : threads) {
@@ -251,6 +287,11 @@ public class Render {
         }
     }
 
+    /**
+     * calculate color for list of rays
+     * @param rays
+     * @return
+     */
     private Color calcColor(List<Ray> rays){
         Color color = Color.BLACK;
 
@@ -296,6 +337,7 @@ public class Render {
         double kd = material.get_kD();
         double ks = material.get_ks();
 
+        //calculate color by all the light sources in the scene
         for (LightSource lightSource : _scene.get_lights()) {
             Vector l = lightSource.getL(intersection.point);
             if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
@@ -312,6 +354,7 @@ public class Render {
             return Color.BLACK;
         }
 
+        //geometry materials
         double kr = intersection.geometry.get_material().get_kR();
         double kkr = k * kr;
 
@@ -391,7 +434,6 @@ public class Render {
         return new Ray(point, v.subtract(n.scale(2 * vn)), n);
     }
 
-    //TODO check case 0
     /**
      * Calculate Specular component of light reflection.
      *
