@@ -123,8 +123,9 @@ public class Scene {
      * Add geometries to the geometries in the scene
      * @param geometries one or more Intersectable
      */
-    public void addGeometries(Intersectable... geometries){
+    public Scene addGeometries(Intersectable... geometries){
         this._geometries.add(geometries);
+        return this;
     }
 
     /**
@@ -139,6 +140,15 @@ public class Scene {
         for (LightSource lightSource: lights
              ) {
             _lights.add(lightSource);
+        }
+    }
+
+    /**
+     * Remove all the light from the list
+     */
+    public void removeAllLights() {
+        if (_lights != null){
+            _lights.clear();
         }
     }
 }
