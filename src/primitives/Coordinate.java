@@ -7,7 +7,6 @@ import static primitives.Util.*;
  * coordinate system. The class is based on Util controlling the accuracy.
  *
  *  @author Ruth Miller
- *  314920976
  *  ruthmiller2000@gmail.com
  */
 public final class Coordinate {

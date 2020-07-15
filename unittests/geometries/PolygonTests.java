@@ -12,7 +12,6 @@ import primitives.*;
 /**
  * Testing Polygons
  * @author Ruth Miller
- * 314920976
  * ruthmiller2000@gmail.com
  */
 public class PolygonTests {

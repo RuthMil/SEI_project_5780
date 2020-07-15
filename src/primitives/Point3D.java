@@ -7,7 +7,6 @@ package primitives;
  * between two point3D, and distance.
  *
  * @author Ruth Miller
- * 314920976
  * ruthmiller2000@gmail.com
  */
 public class Point3D {

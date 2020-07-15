@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Integration test for Camera class, test construct a ray through a pixel toward geometries
  * @author Ruth Miller
- * 314920976
  * ruthmiller2000@gmail.com
  */
 class CameraIntegrationTests {

@@ -10,7 +10,6 @@ import static org.junit.Assert.*;
 /**
  * Unit tests for geometries.Cylinder class
  * @author Ruth Miller
- * 314920976
  * ruthmiller2000@gmail.com
  */
 public class CylinderTest {

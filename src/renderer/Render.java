@@ -143,90 +143,136 @@ public class Render {
         this._rayNumber = _rayNumber;
     }
 
+    /**
+     * number of threads getter
+     * @return threads
+     */
     public int get_threads() {
         return _threads;
     }
 
+    /**
+     * number of threads setter
+     * @param _threads
+     */
     public void set_threads(int _threads) {
         this._threads = _threads;
     }
 
+    /**
+     * spare threads getter
+     * @return spare threads
+     */
     public int getSPARE_THREADS() {
         return SPARE_THREADS;
     }
 
+    /**
+     * check if need to print while the threads are running
+     * @return true- print, false- don't print
+     */
     public boolean is_print() {
         return _print;
     }
 
+    /**
+     * set the print parameter
+     * @param _print to print while the threads are running or not
+     */
     public void set_print(boolean _print) {
         this._print = _print;
     }
 
+    /**
+     * super sampling density parameter getter (0 means there is no anti-aliasing)
+     * @return super sampling density
+     */
     public double get_superSampling() {
         return _superSampling;
     }
 
+    /**
+     * super sampling density parameter setter (0 means there is no anti-aliasing)
+     * @param _superSampling super sampling density
+     */
     public void set_superSampling(double _superSampling) {
         this._superSampling = _superSampling;
     }
 
+    /**
+     * number of rays for construct and shot getter
+     * @return number of rays for construct and shot
+     */
     public int get_rayNumber() {
         return _rayNumber;
     }
 
+    /**
+     * number of rays for construct and shot setter
+     * @param _rayNumber number of rays for construct and shot
+     */
     public void set_rayNumber(int _rayNumber) {
         this._rayNumber = _rayNumber;
     }
 
     /**
      * calculate multi-rays for a pixel
-     * @param camera
-     * @param distance
-     * @param nx
-     * @param ny
-     * @param width
-     * @param height
-     * @param pixel
-     * @return multi-rays for a pixel
+     * @param camera camera of the scene
+     * @param distance distance from the camera to the scence
+     * @param nx number of pixel in x axis
+     * @param ny number of pixel in y axis
+     * @param width width of the view plane
+     * @param height height of the view plane
+     * @param pixel a pixel to get a color for
+     * @return a color selected by multi-rays, for a pixel
      */
     private Color getPixelRaysBeamColor(Camera camera, double distance, int nx, int ny, double width, double height, Pixel pixel) {
         //ray from the center of the pixel
         Ray ray = camera.constructRayThroughPixel(nx, ny, pixel.col, pixel.row, distance, width, height);
 
         //multi-rays, at random, by specific density
-        List<Ray> rays = camera.constructRandomRaysBeamThroughPixel(nx, ny, pixel.col, pixel.row, distance, width, height, _superSampling, _rayNumber);
+        List<Ray> rays = camera.constructRandomRaysBeamThroughPixel
+                (nx, ny, pixel.col, pixel.row, distance, width, height, _superSampling, _rayNumber);
 
+        //add the original ray (from the pixel's center) to the list of the rays- random around the center
         rays.add(ray);
+
+        //calculate the color for list of rays and return it
         return calcColor(rays);
     }
 
     /**
-     * calculate one ray from center of a pixel
-     * @param camera
-     * @param distance
-     * @param nx
-     * @param ny
-     * @param width
-     * @param height
-     * @param pixel
-     * @return one ray from center of a pixel
+     * construct one ray from a center of a pixel
+     * @param camera camera of the scene
+     * @param distance distance from the camera to the scence
+     * @param nx number of pixel in x axis
+     * @param ny number of pixel in y axis
+     * @param width width of the view plane
+     * @param height height of the view plane
+     * @param pixel a pixel to get a color for
+     * @return a color selected by a ray, for a pixel
      */
     private Color getPixelRayColor(Camera camera, double distance, int nx, int ny, double width, double height, Pixel pixel) {
+        //constructs one ray for a pixel
         Ray ray = camera.constructRayThroughPixel(nx, ny, pixel.col, pixel.row, distance, width, height);
+
+        //get the closest intersection with the ray
         GeoPoint closestPoint = findClosestIntersection(ray);
+
         Color pixelColor = _scene.get_background();
 
-        //check if there is intersection
+        //check if there is intersection, if not- the color will stay as background color,
+        // else- will be the calculated color by the intersection point
         if (closestPoint != null) {
             pixelColor = calcColor(closestPoint, ray);
         }
+
         return pixelColor;
     }
 
     /**
-     * print progress massages
-     * @param msg
+     * print massages about progress of the threads running
+     * @param msg massage to print
      */
     private synchronized void printMessage(String msg) {
         synchronized (System.out) {
@@ -288,23 +334,28 @@ public class Render {
     }
 
     /**
-     * calculate color for list of rays
-     * @param rays
+     * calculate color for a pixel by list of rays
+     * @param rays list of color constructed for a pixel, scattered randomly around the pixel's center
      * @return
      */
     private Color calcColor(List<Ray> rays){
         Color color = Color.BLACK;
 
         for(Ray ray:rays){
+            //find closest intersection point for each ray
             GeoPoint gp = findClosestIntersection(ray);
+
+            //if there is no intersection point, add the background color to the final color
             if (gp == null) {
                 color = color.add(_scene.get_background());
             }
+            //if there is intersection point, add the match color for one ray from the list, to the final color
             else {
                 color = color.add(calcColor(gp, ray));
             }
         }
 
+        //calculates the weighted average of the the colors from all the rays, and return it
         int size = rays.size();
         return (size == 1) ? color : color.reduce(size);
     }
@@ -322,7 +373,7 @@ public class Render {
 
     /**
      * Calculates a color in a point
-     * @param intersection GeoPoint
+     * @param intersection GeoPoint, intersection with the ray
      * @param inRay
      * @param level level for recursion
      * @param k
@@ -343,32 +394,49 @@ public class Render {
             if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
                 double ktr = transparency(lightSource, l, n, intersection);
                 if (ktr * k > MIN_CALC_COLOR_K) {
-                    Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);;
+                    //Kam * Iam
+                    Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);
+
+                    //∑i (KD * (N・Li) + KS * (V・R)^n) * Si * IL
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity),
                             calcSpecular(ks, l, n, v, nShininess, lightIntensity));
                 }
             }
         }
 
+        //end of the recursion
         if (level == 1) {
             return Color.BLACK;
         }
 
-        //geometry materials
+        //KR
         double kr = intersection.geometry.get_material().get_kR();
+
+        //KR * IR (recursive call)
         double kkr = k * kr;
 
+        //*********** Reflection Rays ***********//
+
+        //the recursive level is still not 0, there are another recursion
         if (kkr > MIN_CALC_COLOR_K) {
+            //calculates reflected ray, add the color for the reflection to the final color (if there is intersection)
             Ray reflectedRay = constructReflectedRay(intersection.point, inRay, n);
             GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
             if (reflectedPoint != null)
                 color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
         }
 
+        //*********** Refraction Rays ***********//
+
+        //KT
         double kt = intersection.geometry.get_material().get_kT();
+
+        //KT * IT
         double kkt = k * kt;
-        
+
+        //the recursive level is still not 0, there are another recursion
         if (kkt > MIN_CALC_COLOR_K) {
+            //calculates refracted ray, add the color for the refraction to the final color (if there is intersection)
             Ray refractedRay = constructRefractedRay(intersection.point, inRay, n) ;
             GeoPoint refractedPoint = findClosestIntersection(refractedRay);
             if (refractedPoint != null)
@@ -446,6 +514,7 @@ public class Render {
      * @return specular component light effect at the point
      */
     private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
+        //KS * (V・R)^n
         double ln = l.dotProduct(n);
         if(alignZero(ln) == 0){
             throw new IllegalArgumentException("normal vector cannot be orthogonal to L vector");
@@ -465,6 +534,7 @@ public class Render {
      * @return diffusive component of light reflection
      */
     private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
+        //KD * (N・L)
         double nl = alignZero(n.dotProduct(l));
         if(nl < 0){
             nl *= -1;

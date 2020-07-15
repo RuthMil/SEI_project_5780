@@ -4,7 +4,6 @@ package primitives;
  * Util class is used for some internal utilities, e.g. controlling accuracy
  *
  * @author Ruth Miller
- * 314920976
  * ruthmiller2000@gmail.com
  */
 public abstract class Util {

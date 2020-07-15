@@ -13,7 +13,6 @@ import static primitives.Util.isZero;
 /**
  * Unit tests for geometries.Plane class
  * @author Ruth Miller
- * 314920976
  * ruthmiller2000@gmail.com
  */
 public class PlaneTest {

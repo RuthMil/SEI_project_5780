@@ -1,7 +1,5 @@
 package primitives;
 
-import java.util.Objects;
-
 /**
  * Class Vector is representing a Vector in the space.
  * The class includes point3D as the head of the vector
@@ -9,7 +7,6 @@ import java.util.Objects;
  * normalizing, and finding length.
  *
  * @author Ruth Miller
- * 314920976
  * ruthmiller2000@gmail.com
  */
 public class Vector {
